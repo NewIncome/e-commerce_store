@@ -16,9 +16,24 @@ class ProductsController < ApplicationController
     if @product.save
      redirect_to @product
     else
-     render :new, status: :unprocessable_entity
+     render :new, status: :unprocessable_entity  # http status 422
     end
   end
+
+  def edit
+    @product = Product.find(params[:id])
+  end
+
+  def update
+    @product = Product.find(params[:id])
+    if @product.update(product_params)
+      flash[:success] = "Object was successfully updated"
+      redirect_to @product
+    else
+      render "edit", status: :unprocessable_entity
+    end
+  end
+
 
   private
     def product_params
